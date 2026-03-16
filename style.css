@@ -567,3 +567,48 @@ footer{
         color: #800000; 
     }
 }
+
+
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px;
+        flex-wrap: wrap; 
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .logo-img {
+        height: 60px; 
+    }
+    
+    .logo-text {
+        font-size: 1.8rem;
+    }
+
+    .carrito-icono {
+        padding: 8px 12px;
+        font-size: 12px;
+        gap: 5px;
+    }
+    .promo-slide {
+        padding: 40px 10px; 
+    }
+
+    .promo-slide h3 {
+        font-size: 1.5rem; 
+    }
+    
+    .promo-slide p {
+        font-size: 1rem;
+    }
+
+    .btn-carrusel {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    #btn-prev { left: 5px; }
+    #btn-next { right: 5px; }
+}
