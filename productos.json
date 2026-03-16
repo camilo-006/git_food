@@ -1,0 +1,37 @@
+[
+    {
+        "id":1,
+        "nombre": "Git Burger Clasica",
+        "precio": 15000,
+        "descripcion": "carne de rez, queso chedar, lechuga,tomate y salsa especial ",
+        "imagen": " 🍔"
+        
+    },
+
+    {
+        "id":2,
+        "nombre":"doble commit bacon",
+        "precio": 22000,
+        "descripcion": "Doble carne, doble queso, tocino crujiente y cebolla caramelizada",
+        "imagen": " 🥓"
+
+    },
+    {
+        "id": 3,
+        "nombre": "Papas a la francesa (push)",
+        "precio": 8000,
+        "descripcion": "Papas fritas crujientes con sal marina y especias",
+        "imagen": " 🍟"
+
+    },
+    {
+        "id":4,
+        "nombre": "Refresco Debugger",
+        "precio":5000,
+        "descripcion": "Gaseosa helada con burbujas refrescantes y sabor a cola",
+        "imagen": " 🥤"
+
+    }
+
+
+]
