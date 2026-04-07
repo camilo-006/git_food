@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Flash Food Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #000; font-family: sans-serif; }
+        .login-container { background: #111; padding: 40px; border-radius: 15px; border: 1px solid #333; width: 100%; max-width: 350px; text-align: center; }
+        .login-container h2 { color: #ffc107; margin-bottom: 20px; }
+        .login-container input { width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; }
+        .btn-login { width: 100%; padding: 12px; background: #ffc107; border: none; color: black; font-weight: bold; border-radius: 8px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>🔒 Acceso Admin</h2>
+        <form id="form-login">
+            <input type="text" id="user" placeholder="Usuario" required>
+            <input type="password" id="pass" placeholder="Contraseña" required>
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('form-login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const usuario = document.getElementById('user').value;
+            const password = document.getElementById('pass').value;
+
+            try {
+                const respuesta = await fetch('http://localhost/git_food_api/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, password })
+                });
+
+                const resultado = await respuesta.json();
+
+                if (resultado.exito) {
+                    sessionStorage.setItem('admin_logueado', 'true');
+                    // ✅ replace() para que el botón "Atrás" no vuelva aquí
+                    window.location.replace('admin.html');
+                } else {
+                    alert("🚫 Datos incorrectos");
+                }
+            } catch (error) {
+                alert("❌ Error de conexión. ¿Encendiste XAMPP?");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+sessionStorage.removeItem('admin_logueado');
 const contenedorProductos = document.getElementById('lista-productos');
 const etiquetaTotalHeader = document.getElementById('total-carrito-header');
 const etiquetaTotalPanel = document.getElementById('total-carrito-panel');
@@ -15,22 +16,41 @@ const totalPromos = 3;
 let carrito = JSON.parse(localStorage.getItem('carritoGitFood')) || [];
 let productosBaseDeDatos = [];
 
+// 1. FUNCIÓN PARA TRAER LOS DATOS DE MYSQL
 async function cargarProductos() {
     try {
-        const respuesta = await fetch('productos.json');
+        const respuesta = await fetch('http://localhost/git_food_api/obtener_productos.php');
         const productos = await respuesta.json();
-        productosBaseDeDatos = productos;
 
-        productos.forEach(producto => {
+        // Convertimos el precio a número
+        productosBaseDeDatos = productos.map(p => ({
+            ...p,
+            precio: parseFloat(p.precio) 
+        }));
+
+        contenedorProductos.innerHTML = ''; 
+        productosBaseDeDatos.forEach(producto => {
             const tarjeta = document.createElement('div');
             tarjeta.classList.add('tarjeta-producto');
 
+            // 🌟 CONDICIONAL PARA LA IMAGEN PRINCIPAL 🌟
+            let htmlImagen = "";
+            if (producto.url_image && producto.url_image.trim() !== "") {
+                htmlImagen = `<img src="${producto.url_image}" 
+                                   alt="${producto.nombre_producto}" 
+                                   class="img-tarjeta" 
+                                   onerror="this.parentElement.innerHTML='<div class=\'emoji-tarjeta\'>🍔</div>'">`;
+            } else {
+                htmlImagen = `<div class="emoji-tarjeta">🍔</div>`;
+            }
+
             tarjeta.innerHTML = `
-                <div class="imagen-producto">${producto.imagen}</div>
-                <h3>${producto.nombre}</h3>
+                <div class="imagen-producto">${htmlImagen}</div>
+                <h3>${producto.nombre_producto}</h3>
+                <p style="color: #ffca28; font-weight: bold; margin: 5px 0;">${producto.categoria}</p>
                 <p>${producto.descripcion}</p>
                 <p class="precio">$${producto.precio.toLocaleString()}</p>
-                <button class="btn-agregar" onclick="agregarAlCarrito(${producto.id})">
+                <button class="btn-agregar" onclick="agregarAlCarrito(${producto.id_producto})">
                     Agregar
                 </button>
             `;
@@ -41,13 +61,14 @@ async function cargarProductos() {
     }
 }
 
+// 2. FUNCIONES DEL CARRITO
 function agregarAlCarrito(id){
-    const productoEncontrado = productosBaseDeDatos.find(p => p.id == id);
+    const productoEncontrado = productosBaseDeDatos.find(p => p.id_producto == id);
     if (productoEncontrado){
         carrito.push(productoEncontrado);   
         actualizarInterfaz();
         renderizarCarrito(); 
-        mostrarToast(productoEncontrado.nombre);
+        mostrarToast(productoEncontrado.nombre_producto);
     }
 }
 
@@ -81,20 +102,30 @@ function renderizarCarrito(){
         const divProducto = document.createElement('div');
         divProducto.classList.add('item-carrito');
 
+        // 🌟 CONDICIONAL PARA LA IMAGEN DEL CARRITO 🌟
+        let htmlImagenMini = "";
+        if (producto.url_image && producto.url_image.trim() !== "") {
+            htmlImagenMini = `<img src="${producto.url_image}" 
+                                   alt="${producto.nombre_producto}" 
+                                   class="img-carrito" 
+                                   onerror="this.parentElement.innerHTML='<div class=\'emoji-carrito\'>🍔</div>'">`;
+        } else {
+            htmlImagenMini = `<div class="emoji-carrito">🍔</div>`;
+        }
+
         divProducto.innerHTML = `
-            <div>${producto.imagen}</div>
-            <div>
-                <p><strong>${producto.nombre}</strong></p>
+            <div>${htmlImagenMini}</div>
+            <div style="flex-grow: 1; margin-left: 10px;">
+                <p><strong>${producto.nombre_producto}</strong></p>
                 <p>$${producto.precio.toLocaleString()}</p>
             </div>
-            <button onclick="eliminarDelCarrito(${index})" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+            <button onclick="eliminarDelCarrito(${index})" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;">
                 ❌  
             </button>
         `;
         contenedorLista.appendChild(divProducto);
     });
 }
-
 
 function eliminarDelCarrito(index) {
     carrito.splice(index, 1);
@@ -104,6 +135,8 @@ function eliminarDelCarrito(index) {
 
 function mostrarToast(mensaje){
     const contenedor = document.getElementById('toast-contenedor');
+    if(!contenedor) return;
+    
     const toast = document.createElement('div');
     toast.classList.add('toast');
     toast.innerHTML = `✅ ¡Listo! Agregaste: ${mensaje}`;
@@ -116,7 +149,7 @@ function mostrarToast(mensaje){
     }, 3000);
 }
 
-
+// 3. FINALIZAR COMPRA (WHATSAPP)
 function finalizarCompra() {
     if (carrito.length === 0) {
         Swal.fire({
@@ -129,11 +162,11 @@ function finalizarCompra() {
     }
 
     const telefono = "573223109301"; 
-    let mensaje = "¡Hola Git Food! 👋 Quisiera hacer un pedido:\n\n";
+    let mensaje = "¡Hola Flash Food! Quisiera hacer un pedido:\n\n";
     let total = 0;
 
     carrito.forEach((producto) => {
-        mensaje += `• ${producto.nombre} - $${producto.precio.toLocaleString()}\n`;
+        mensaje += `• ${producto.nombre_producto} - $${producto.precio.toLocaleString()}\n`;
         total += producto.precio;
     });
     mensaje += `\n*Total a pagar: $${total.toLocaleString()}*`;
@@ -159,6 +192,7 @@ function finalizarCompra() {
     });
 }
 
+// 4. EVENTOS DEL CARRITO
 botonCarritoTop.addEventListener('click', () => {
     panelCarrito.classList.add('activo');
     renderizarCarrito();
@@ -168,15 +202,9 @@ botonCerrar.addEventListener('click', () => {
     panelCarrito.classList.remove('activo');
 });
 
-cargarProductos();
-actualizarInterfaz();
-renderizarCarrito();
-
-
-
-
+// 5. FUNCIONES DEL CARRUSEL
 function moverCarrusel() {
-    trackPromos.style.transform = `translateX(-${indicePromo * 100}%)`;
+    if(trackPromos) trackPromos.style.transform = `translateX(-${indicePromo * 100}%)`;
 }
 
 function siguientePromo() {
@@ -195,18 +223,23 @@ function anteriorPromo() {
     moverCarrusel();
 }
 
-
-btnNext.addEventListener('click', () => {
+if(btnNext) btnNext.addEventListener('click', () => {
     siguientePromo();
     reiniciarTemporizador(); 
 });
 
-btnPrev.addEventListener('click', () => {
+if(btnPrev) btnPrev.addEventListener('click', () => {
     anteriorPromo();
     reiniciarTemporizador();
 });
+
 let temporizador = setInterval(siguientePromo, 4000);
 function reiniciarTemporizador() {
     clearInterval(temporizador);
     temporizador = setInterval(siguientePromo, 4000);
 }
+
+// 6. INICIALIZAR LA APLICACIÓN
+cargarProductos();
+actualizarInterfaz();
+renderizarCarrito();

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Git Food - Panel de Control</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header class="header-panel">
+        <a href="index.html" class="logo-admin">
+            <img src="assets/img/logoo.png" alt="Logo" class="logo-img-admin">
+            <span class="logo-text">FLASH-FOOD</span>
+        </a>
+
+        <div class="panel-der">
+            <button id="btn-logout" class="btn-eliminar">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <main class="contenedor-admin">
+        <section id="seccion-formulario">
+            <h2>Agregar Nuevo Producto</h2>
+            <form id="form-producto">
+
+                <input type="hidden" id="id_producto_editar" value="">
+                <input type="text" id="nombre" placeholder="Nombre del producto" required>
+                <textarea id="descripcion" placeholder="Descripción"></textarea>
+                <input type="number" id="precio" placeholder="Precio" required>
+                <input type="text" id="url_image" placeholder="URL de la imagen">
+                <select id="id_categoria" required>
+                    <option value="" disabled selected>🍔 Selecciona una categoría</option>
+                    <option value="1">Hamburguesa</option>
+                    <option value="2">Perros Calientes</option>
+                    <option value="3">Bebidas</option>
+                    <option value="4">Acompañamientos</option>
+                </select>
+                <button type="submit" class="btn-agregar">Guardar Producto</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <section id="seccion-tabla">
+            <h2>Inventario Actual</h2>
+            <table border="1" id="tabla-productos" style="width:100%; color: white; text-align: left;">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo-tabla">
+                    </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

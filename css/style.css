@@ -9,7 +9,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    background-image: url('fondo-gitfood.png'); 
+    background-image: url('../assets/img/fondo-flashfood.png'); 
     background-size: cover; 
     background-attachment: fixed; 
     background-position: center; 
@@ -48,6 +48,35 @@ header {
     font-weight: bold;
     color: #ffca28;
 
+}
+
+.admin-access {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.btn-admin {
+    background: rgba(255, 193, 7, 0.1); 
+    color: #ffc107;
+    padding: 10px 20px;
+    border: 1px solid #ffc107;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-admin:hover {
+    background: #ffc107;
+    color: #000;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+    transform: translateY(-2px);
 }
 
 .carrito-icono {
@@ -568,8 +597,6 @@ footer{
     }
 }
 
-
-
 @media (max-width: 768px) {
     .navbar {
         padding: 10px;
@@ -612,3 +639,214 @@ footer{
     #btn-prev { left: 5px; }
     #btn-next { right: 5px; }
 }
+
+.img-tarjeta {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block; 
+    overflow: hidden; 
+    font-size: 0;     
+    background-color: #333;
+}
+
+
+.emoji-tarjeta {
+    font-size: 4rem;
+    text-align: center;
+    padding: 20px 0;
+}
+
+
+.img-carrito {
+    width: 60px; 
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+.emoji-carrito {
+    font-size: 2rem;
+    text-align: center;
+}
+
+
+
+/*admin.html*/
+
+/* =========================================
+   ESTILOS DEL PANEL DE ADMINISTRADOR
+========================================= */
+
+/* Arreglar el encabezado de arriba */
+body > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+body > header h1 {
+    color: white;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Sombra para que resalte */
+}
+
+/* La caja principal oscura */
+.contenedor-admin {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.85); /* Un poquito más oscuro */
+    border-radius: 15px;
+    color: white; /* 🌟 ESTO ARREGLA EL TEXTO NEGRO 🌟 */
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px); /* Efecto cristal moderno */
+}
+
+.contenedor-admin h2 {
+    color: #ffca28; /* Títulos en amarillo Git Food */
+    margin-bottom: 15px;
+}
+
+/* El formulario */
+#form-producto {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+#form-producto input, 
+#form-producto textarea, 
+#form-producto select {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #111;
+    color: white;
+    font-size: 1rem;
+    width: 100%; /* Para que ocupe todo el ancho */
+}
+
+#form-producto select option {
+    background: #111;
+    color: white;
+}
+
+/* La tabla */
+#tabla-productos {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+    color: white;
+}
+
+#tabla-productos th, #tabla-productos td {
+    padding: 15px;
+    border-bottom: 1px solid #444;
+    text-align: left;
+}
+
+#tabla-productos th {
+    background-color: #ffca28;
+    color: black;
+    font-weight: bold;
+}
+
+.btn-eliminar {
+    background-color: #d90429;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-eliminar:hover {
+    background-color: #ff0000;
+    transform: scale(1.05);
+}
+
+.btn-editar {
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-right: 5px;
+}
+
+.btn-editar:hover {
+    background-color: #0096c7;
+    transform: scale(1.05);
+}
+
+
+.spinner {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* =========================================
+   HEADER EXCLUSIVO DEL PANEL DE ADMIN
+========================================= */
+.header-panel {
+    display: flex !important;
+    justify-content: space-between !important; /* Empuja el logo a la izq y el botón a la der */
+    align-items: center !important;
+    width: 100%;
+    padding: 15px 40px;
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo oscuro sutil */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+}
+
+.logo-admin {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+    text-decoration: none;
+}
+
+.logo-img-admin {
+    height: 60px; /* Tamaño controlado para que no desborde */
+    width: auto;
+    filter: drop-shadow(0 0 10px #ffca28);
+  
+}
+
+.header-panel {
+    font-size: 2.5rem; 
+    margin: 0;
+}
+
+.panel-der {
+    display: flex;
+    align-items: center;
+}
+
+.panel-der button {
+    margin: 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+

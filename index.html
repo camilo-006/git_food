@@ -4,27 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Git Food - Comida rápida a la velocidad del código</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
+<script>
+    // 🛡️ Seguridad: Si el usuario está en la tienda, quitamos permisos de admin.
+    sessionStorage.removeItem('admin_logueado');
+</script>
 <body>
     <header>
         <nav class="navbar">
             <div class="logo">
-                <img src="logo.jpg" alt="Logo Git Food" class="logo-img">
-                <span class="logo-text">Git-Food</span>
+                <img src="assest/img/logoo.png" alt="Logo Flash Food" class="logo-img">
+                <span class="logo-text">Flash-Food</span>
             </div>
             <div class="carrito-icono" id="boton-carrito" style="cursor: pointer;"> 
-                 Carrito <span id="contador-carrito">0</span>
-                 total: $<span id="total-carrito-header">0</span>
+                Carrito <span id="contador-carrito">0</span>
+                total: $<span id="total-carrito-header">0</span>
             </div>
-        </nav>        
+        </nav> 
+        <div class="admin-access">
+            <a href="login.html" class="btn-admin">
+                <i class="fas fa-user-shield"></i> Panel Admin
+            </a>
+        </div>       
     </header>
+
 
     <main>
         <section class="hero">
-            <h1>Bienvenido a Git Food</h1>
+            <h1>Bienvenido a Flash Food</h1>
             <p>Las mejores hamburguesas, procesadas a la velocidad de la luz</p>
         </section>
         
@@ -60,12 +70,12 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Git Food. Desarrollado por Brayan Alarcon</p>
+        <p>&copy; 2026 Flash Food. Desarrollado por ZenTech Solutions</p>
     </footer>
 
     <aside id="carrito-panel">
         <div class="carrito-header">
-            <h2>Tu pedido Git Food 🍔</h2>
+            <h2>Tu pedido Flash Food 🍔</h2>
             <button id="cerrar-carrito">❌</button>
         </div>
         
@@ -85,7 +95,9 @@
     </aside>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="script.js"></script>
+    
+    <script src="js/script.js"></script>
+    
     <div id="toast-contenedor"></div>
 
 </body>
