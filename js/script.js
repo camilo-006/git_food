@@ -94,9 +94,14 @@ function renderizarCarrito(){
     contenedorLista.innerHTML = '';
 
     if (carrito.length === 0){
-        contenedorLista.innerHTML = '<p style="text-align:center; padding:20px;">Tu carrito está vacío 😢</p>';
-        return;
-    }
+contenedorLista.innerHTML = `
+    <div style="padding: 60px 20px; text-align: center; width: 100%;">
+        <p style="font-family: 'Orbitron', sans-serif; color: #ffffff; font-size: 1.2rem; margin-bottom: 20px; text-shadow: 0 0 10px rgba(0,0,0,0.5);">
+            TU CARRITO ESTÁ VACÍO
+        </p>
+        <span style="font-size: 3.5rem;">🍟</span>
+    </div>
+`; }
 
     carrito.forEach((producto, index) => {
         const divProducto = document.createElement('div');
@@ -132,6 +137,35 @@ function eliminarDelCarrito(index) {
     actualizarInterfaz();
     renderizarCarrito();
 }
+
+document.getElementById('vaciar-carrito').addEventListener('click', () => {
+    Swal.fire({
+        title: '¿Vaciar carrito?',
+        text: "Se eliminarán todos los productos de la memoria.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ffca28',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, borrar todo',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // 1. Limpiamos el array
+            carrito = []; 
+            
+            // 2. Sincronizamos todo (esto limpia textos y el LocalStorage correctamente)
+            actualizarInterfaz();
+            renderizarCarrito();
+
+            Swal.fire({
+                title: '¡Vaciado!',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        }
+    });
+});
 
 function mostrarToast(mensaje){
     const contenedor = document.getElementById('toast-contenedor');
